@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mindful Study Minutes</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #243047;
+  text-align: center;
+}
+header {
+  background: #647c9c;
+  color: white;
+  padding: 30px 15px;
+}
+header h1 {
+  margin-bottom: 10px;
+}
+main {
+  max-width: 850px;
+  margin: 30px auto;
+  padding: 15px;
+}
+.card {
+  background: white;
+  padding: 25px;
+  margin: 20px 0;
+  border-radius: 15px;
+  box-shadow: 0 3px 12px #00000012;
+}
+.timer {
+  font-size: 55px;
+  margin: 20px;
+  color: #647c9c;
+}
+button {
+  background: #647c9c;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+button:hover {
+  background: #435d7e;
+}
+input {
+  padding: 12px;
+  width: 75%;
+  max-width: 350px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+}
+#taskList {
+  list-style: none;
+  padding: 0;
+}
+#taskList li {
+  background: #eef2f7;
+  margin: 8px;
+  padding: 12px;
+  border-radius: 7px;
+}
+footer {
+  padding: 20px;
+  color: #64748b;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌿 Mindful Study Minutes</h1>
+  <p>Study Better, Stay Focused, Feel Better</p>
+</header>
+
+<main>
+  <section class="card">
+    <h2>⏳ Focus Timer</h2>
+    <p>Take one step at a time. Focus on your studies!</p>
+    <div class="timer" id="timer">25:00</div>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+  </section>
+
+  <section class="card">
+    <h2>📝 Daily Study Tasks</h2>
+    <p>Add your tasks and complete them one by one.</p>
+    <input id="taskInput" type="text" placeholder="Enter your study task">
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
+  </section>
+
+  <section class="card">
+    <h2>🌸 Daily Motivation</h2>
+    <p id="quote">Small steps every day lead to big success!</p>
+    <button onclick="newQuote()">New Motivation</button>
+  </section>
+
+  <section class="card">
+    <h2>🧘 Mindful Break</h2>
+    <p>Take a deep breath. Relax your mind and body.</p>
+    <button onclick="breakTime()">Start 1-Minute Break</button>
+    <p id="breakMessage"></p>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 Mindful Study Minutes | Stay Focused 🌿</p>
+</footer>
+
+<script>
+let seconds = 25 * 60;
+let interval = null;
+
+function displayTimer() {
+  let min = Math.floor(seconds / 60);
+  let sec = seconds % 60;
+  document.getElementById("timer").textContent =
+    String(min).padStart(2, "0") + ":" +
+    String(sec).padStart(2, "0");
+}
+
+function startTimer() {
+  if (interval) return;
+  interval = setInterval(function() {
+    if (seconds > 0) {
+      seconds--;
+      displayTimer();
+    } else {
+      pauseTimer();
+      alert("Great job! Focus session completed.");
+    }
+  }, 1000);
+}
+
+function pauseTimer() {
+  clearInterval(interval);
+  interval = null;
+}
+
+function resetTimer() {
+  pauseTimer();
+  seconds = 25 * 60;
+  displayTimer();
+}
+
+function addTask() {
+  let input = document.getElementById("taskInput");
+  let task = input.value.trim();
+  if (task === "") {
+    alert("Please enter a task.");
+    return;
+  }
+  let li = document.createElement("li");
+  let checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.style.width = "auto";
+  li.appendChild(checkbox);
+  li.appendChild(document.createTextNode(" " + task));
+  document.getElementById("taskList").appendChild(li);
+  input.value = "";
+}
+
+let quotes = [
+  "Believe in yourself and keep going!",
+  "Small progress is still progress.",
+  "Your future is created by what you do today.",
+  "Stay focused and never give up!"
+];
+
+function newQuote() {
+  let index = Math.floor(Math.random() * quotes.length);
+  document.getElementById("quote").textContent = quotes[index];
+}
+
+function breakTime() {
+  document.getElementById("breakMessage").textContent =
+    "Breathe in slowly... Breathe out slowly... Relax! 🌿";
+  setTimeout(function() {
+    document.getElementById("breakMessage").textContent =
+      "Your mindful break is complete. Welcome back!";
+  }, 60000);
+}
+
+displayTimer();
+</script>
+</body>
+</html>
